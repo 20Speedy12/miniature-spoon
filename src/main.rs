@@ -1,6 +1,7 @@
 use iced::Center;
 use iced::widget;
 use iced::widget::{button, column, text};
+use iced::{Element, Task}
 
 pub fn main() -> iced::Result {
     iced::run(Counter::update, Counter::view)
@@ -29,7 +30,7 @@ impl Counter {
         }
     }
 
-    fn view(&self) -> impl Widget<Message> {
+    fn view(&self) -> impl Element<Message> {
         column![
             button("Increment").on_press(Message::Increment),
             text(self.value).size(50),
