@@ -6,4 +6,4 @@ edition = "2024"
 publish = false
 
 [dependencies]
-iced = "0.14.0"
+iced = { git = "https://github.com/iced-rs/iced.git" }
