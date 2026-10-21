@@ -1,5 +1,6 @@
 use iced::Center;
-use iced::widget::{Widget, button, column, text};
+use iced::Widget;
+use iced::widget::{button, column, text};
 
 pub fn main() -> iced::Result {
     iced::run(Counter::update, Counter::view)
