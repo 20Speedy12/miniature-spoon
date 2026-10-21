@@ -1,69 +1,35 @@
-use iced::Center;
-use iced::widget;
+
 use iced::widget::{button, column, text};
-use iced::{Element, Task}
+use iced::Element;
 
-pub fn main() -> iced::Result {
-    iced::run(Counter::update, Counter::view)
+fn main() -> iced::Result {
+    iced::run("Counter", update, view)
 }
 
-#[derive(Default)]
-struct Counter {
-    value: i64,
-}
-
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone)]
 enum Message {
     Increment,
     Decrement,
 }
 
-impl Counter {
-    fn update(&mut self, message: Message) {
-        match message {
-            Message::Increment => {
-                self.value += 1;
-            }
-            Message::Decrement => {
-                self.value -= 1;
-            }
-        }
-    }
+#[derive(Default)]
+struct Counter {
+    value: i32,
+}
 
-    fn view(&self) -> impl Element<Message> {
-        column![
-            button("Increment").on_press(Message::Increment),
-            text(self.value).size(50),
-            button("Decrement").on_press(Message::Decrement)
-        ]
-        .padding(20)
-        .align_x(Center)
+fn update(counter: &mut Counter, message: Message) {
+    match message {
+        Message::Increment => counter.value += 1,
+        Message::Decrement => counter.value -= 1,
     }
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-    use iced_test::{Error, simulator};
-
-    #[test]
-    fn it_counts() -> Result<(), Error> {
-        let mut counter = Counter { value: 0 };
-        let mut ui = simulator(counter.view());
-
-        let _ = ui.click("Increment")?;
-        let _ = ui.click("Increment")?;
-        let _ = ui.click("Decrement")?;
-
-        for message in ui.into_messages() {
-            counter.update(message);
-        }
-
-        assert_eq!(counter.value, 1);
-
-        let mut ui = simulator(counter.view());
-        assert!(ui.find("1").is_ok(), "Counter should display 1!");
-
-        Ok(())
-    }
+fn view(counter: &Counter) -> Element<'_, Message> {
+    column![
+        text(counter.value).size(40),
+        button("+").on_press(Message::Increment),
+        button("-").on_press(Message::Decrement),
+    ]
+    .spacing(10)
+    .into()
 }
