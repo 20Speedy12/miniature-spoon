@@ -1,5 +1,5 @@
 use iced::Center;
-use iced::Widget;
+use iced::widget;
 use iced::widget::{button, column, text};
 
 pub fn main() -> iced::Result {
